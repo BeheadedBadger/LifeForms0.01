@@ -7,10 +7,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private LayerMask placementLayerMask;
     [SerializeField] private GameObject mouseIndicator, cellIndicator;
     [SerializeField] Grid grid;
-    [SerializeField] GameObject gridVisualLvl0;
-    [SerializeField] GameObject gridVisualLvl1;
-    [SerializeField] GameObject gridVisualLvl2;
-    [SerializeField] GameObject gridVisualLvl3;
+    [SerializeField] GameObject gridVisual;
 
     [SerializeField] GameObject CameraRig;
     float cameraMovementSpeed = 0.1f;
@@ -29,40 +26,13 @@ public class PlayerInput : MonoBehaviour
         mouseIndicator.transform.position = mousePos;
         cellIndicator.transform.position = grid.CellToWorld(gridPos);
 
-        GridLevelDisplay(gridPos);
+        GridLevelDisplay(grid.CellToWorld(gridPos));
         HandleCameraMovement();
     }
 
-    private void GridLevelDisplay(Vector3Int gridPos)
+    private void GridLevelDisplay(Vector3 gridPos)
     {
-        if (gridPos.y == 3 && gridVisualLvl3.activeSelf == false)
-        {
-            gridVisualLvl0.SetActive(false);
-            gridVisualLvl1.SetActive(false);
-            gridVisualLvl2.SetActive(false);
-            gridVisualLvl3.SetActive(true);
-        }
-        else if (gridPos.y == 2 && gridVisualLvl2.activeSelf == false)
-        {
-            gridVisualLvl0.SetActive(false);
-            gridVisualLvl1.SetActive(false);
-            gridVisualLvl2.SetActive(true);
-            gridVisualLvl3.SetActive(false);
-        }
-        else if (gridPos.y == 1 && gridVisualLvl1.activeSelf == false)
-        {
-            gridVisualLvl0.SetActive(false);
-            gridVisualLvl1.SetActive(true);
-            gridVisualLvl2.SetActive(false);
-            gridVisualLvl3.SetActive(false);
-        }
-        else if (gridPos.y == 0 && gridVisualLvl0.activeSelf == false)
-        {
-            gridVisualLvl0.SetActive(true);
-            gridVisualLvl1.SetActive(false);
-            gridVisualLvl2.SetActive(false);
-            gridVisualLvl3.SetActive(false);
-        }
+        gridVisual.transform.position = gridPos;
     }
 
     public Vector3 GetSelectedMapPosition()
@@ -71,7 +41,7 @@ public class PlayerInput : MonoBehaviour
         mousePos.z = cam.nearClipPlane;
         Ray ray = cam.ScreenPointToRay(mousePos);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100, placementLayerMask))
+        if (Physics.Raycast(ray, out hit, 400, placementLayerMask))
         { 
             lastPosition = hit.point;
         }
