@@ -817,6 +817,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6109098642736938014, guid: 4a87d726c106b6b49aeb2402a9f3a826, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109098642736938014, guid: 4a87d726c106b6b49aeb2402a9f3a826, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109098642736938014, guid: 4a87d726c106b6b49aeb2402a9f3a826, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109098642736938014, guid: 4a87d726c106b6b49aeb2402a9f3a826, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109098642736938014, guid: 4a87d726c106b6b49aeb2402a9f3a826, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801227030114831667, guid: 4a87d726c106b6b49aeb2402a9f3a826, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801227030114831667, guid: 4a87d726c106b6b49aeb2402a9f3a826, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6815989016878519903, guid: 4a87d726c106b6b49aeb2402a9f3a826, type: 3}
+      propertyPath: m_Name
+      value: GridIndicator
+      objectReference: {fileID: 0}
     - target: {fileID: 7397501355857791531, guid: 4a87d726c106b6b49aeb2402a9f3a826, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
