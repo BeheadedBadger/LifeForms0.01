@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class WorldGeneration : MonoBehaviour
 {
+    [SerializeField] GameData gameData;
     [SerializeField] int worldSize;
     [SerializeField] GameObject basePlane;
     [SerializeField] GameObject water;
     [SerializeField] GameObject tilePrefab;
     [SerializeField] List<GameObject> tiles = new();
+    [SerializeField] Grid grid;
 
     [SerializeField] float borderSize = 0.2f;
 
@@ -28,7 +30,8 @@ public class WorldGeneration : MonoBehaviour
     }
 
     void Generate()
-    {   
+    {
+        gameData.cellDatabase.Clear();
         ClearAll();
         basePlane.transform.localScale = new Vector3(worldSize / 8, 1, worldSize / 8);
         basePlane.transform.position = new Vector3(worldSize / 2, 0, worldSize / 2);
@@ -42,6 +45,7 @@ public class WorldGeneration : MonoBehaviour
         {
             for (int y = 0; y < worldSize; y++)
             {
+                Cell cell = new(new Vector3Int(x,0,y), 0, 5, null, 0, null, true);
                 float noiseCoordinates = Mathf.PerlinNoise((float)x / 50 + randomOffset, (float)y / 50 + randomOffset);
                 //Lower towards edge and heighten towards center, in a circle pattern.
                 borderSize = worldSize / 4;
@@ -60,32 +64,38 @@ public class WorldGeneration : MonoBehaviour
                 //noiseCoordinates are now a number between +- 0 and 1. Generate tiles.
                 if (noiseCoordinates >= 0)
                 {
-                    GameObject tile = Instantiate(tilePrefab, this.transform);
-                    tile.transform.position = new Vector3(x, 0, y);
-                    tiles.Add(tile);
+                    cell = GenerateTile(x, y, 0, cell);
                 }
                 if (noiseCoordinates >= 0.3)
                 {
-                    GameObject tile = Instantiate(tilePrefab, this.transform);
-                    tile.transform.position = new Vector3(x, 1, y);
-                    tiles.Add(tile);
+                    cell = GenerateTile(x, y, 1, cell); 
                 }
                 if (noiseCoordinates >= 0.6)
                 {
-                    GameObject tile = Instantiate(tilePrefab, this.transform);
-                    tile.transform.position = new Vector3(x, 2, y);
-                    tiles.Add(tile);
+                    cell = GenerateTile(x, y, 2, cell);
                 }
                 if (noiseCoordinates >= 1)
                 {
-                    GameObject tile = Instantiate(tilePrefab, this.transform);
-                    tile.transform.position = new Vector3(x, 3, y);
-                    tiles.Add(tile);
+                    cell = GenerateTile(x, y, 3, cell);
                 }
-                values.Add(noiseCoordinates);
+
+              gameData.cellDatabase.Add(cell.Coordinates, cell);
             }
         }
-        Debug.Log($"{values.Min(x => x)} {values.Max(x => x)}");
+    }
+
+    private Cell GenerateTile(int x, int y, int height, Cell cell)
+    {
+        GameObject tile = Instantiate(tilePrefab, this.transform);
+        Vector3Int cellPos = grid.WorldToCell(new Vector3(x, height, y));
+        tile.transform.position = cellPos;
+        tiles.Add(tile);
+
+        cell.humidity = (5 - height);
+        cell.height = height+1;
+        cell.Coordinates = new(cellPos.x, cellPos.y+1, cellPos.z);
+
+        return cell;
     }
 
     private void ClearAll()
